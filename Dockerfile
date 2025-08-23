@@ -1,14 +1,19 @@
+# ============ FRONTEND ============
 FROM node:18 AS frontend
 WORKDIR /frontend
 
+# copy package.json & install deps
 COPY gui/ohunter-ui/package*.json ./
 RUN npm install --legacy-peer-deps
 
+# copy frontend code
 COPY gui/ohunter-ui ./
-RUN chmod +x node_modules/.bin/*
 
-RUN npx vite build
+# اعطي صلاحيات تنفيذ لكل الملفات في node_modules/.bin
+RUN chmod -R +x node_modules/.bin
 
+# build project using npx
+RUN npx --yes vite build
 
 # -------- BACKEND --------
 FROM python:3.11-slim AS backend
