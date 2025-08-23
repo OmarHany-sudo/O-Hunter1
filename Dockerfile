@@ -9,11 +9,14 @@ RUN npm install --legacy-peer-deps
 # copy frontend code
 COPY gui/ohunter-ui ./
 
-# اعطي صلاحيات تنفيذ لكل الملفات في node_modules/.bin
-RUN chmod -R +x node_modules/.bin
+# نثبت esbuild بشكل مباشر لضمان وجود الـ binary
+RUN npm install esbuild --save-dev
 
-# build project using npx
-RUN npx --yes vite build
+# اعطي صلاحيات لكل الملفات التنفيذية
+RUN chmod -R +x node_modules/.bin node_modules/esbuild/bin node_modules/@esbuild
+
+# build project
+RUN npx vite build
 
 # -------- BACKEND --------
 FROM python:3.11-slim AS backend
