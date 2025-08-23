@@ -1,35 +1,31 @@
-FROM python:3.11-slim
+# ============ Build React Frontend ============
+FROM node:18 AS frontend
+WORKDIR /frontend
+COPY gui/ohunter-ui/package*.json ./
+RUN npm install
+COPY gui/ohunter-ui ./
+RUN npm run build
 
-# Set working directory
+# ============ Build Python Backend ============
+FROM python:3.11-slim AS backend
 WORKDIR /app
 
-# Install system deps + node + pnpm
-RUN apt-get update && apt-get install -y curl gnupg \
-    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g pnpm \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python deps
+# نسخ requirements
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
+# نسخ الكود كله
 COPY . .
 
-# ===== Build Frontend =====
-WORKDIR /app/gui/ohunter-ui
-RUN pnpm install && pnpm run build
+# نسخ الـ build بتاع React للـ backend
+COPY --from=frontend /frontend/dist ./dist
 
-# Back to backend
-WORKDIR /app
-
-# Env vars
-ENV PYTHONPATH=/app
+# Variables
 ENV PORT=8080
+ENV PYTHONPATH=/app
 
 # Expose port
-EXPOSE $PORT
+EXPOSE 8080
 
-# Run Flask app
-CMD ["python", "-m", "core.app"]
+# Run Flask
+CMD ["python", "core/app.py"]
