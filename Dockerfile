@@ -1,20 +1,12 @@
 FROM node:18 AS frontend
 WORKDIR /frontend
 
-# انسخ بس package.json و lockfile
 COPY gui/ohunter-ui/package*.json ./
-
-# نزّل dependecies
 RUN npm install --legacy-peer-deps
 
-# انسخ باقي الكود
 COPY gui/ohunter-ui ./
+RUN chmod +x node_modules/.bin/*
 
-# اعطي صلاحيات لكل الملفات اللي ممكن تحتاج execute
-RUN chmod +x node_modules/.bin/* \
-    && chmod +x node_modules/@esbuild/linux-x64/esbuild
-
-# ابني المشروع
 RUN npx vite build
 
 
