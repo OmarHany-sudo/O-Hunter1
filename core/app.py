@@ -219,6 +219,7 @@ def integrations_status():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
+    return jsonify({'status': 'healthy', 'message': 'O-Hunter API is running'}), 200
     """Health check endpoint for Railway"""
     return jsonify({
         'status': 'healthy', 
