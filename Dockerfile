@@ -1,4 +1,3 @@
-# ============ Build React Frontend ============
 FROM node:18 AS frontend
 WORKDIR /frontend
 
@@ -11,12 +10,12 @@ RUN npm install --legacy-peer-deps
 # انسخ باقي الكود
 COPY gui/ohunter-ui ./
 
-# اعطي صلاحيات لـ vite عشان يتنفذ
-RUN chmod +x node_modules/.bin/vite
+# اعطي صلاحيات لكل الملفات اللي ممكن تحتاج execute
+RUN chmod +x node_modules/.bin/* \
+    && chmod +x node_modules/@esbuild/linux-x64/esbuild
 
 # ابني المشروع
 RUN npx vite build
-
 
 
 # -------- BACKEND --------
