@@ -2,16 +2,17 @@
 FROM node:20-bullseye AS frontend
 WORKDIR /frontend
 
+# انسخ الـ package.json و package-lock.json
 COPY gui/ohunter-ui/package*.json ./
+
+# ثبت dependencies مع تجاهل peer conflicts
 RUN npm install --legacy-peer-deps
 
+# انسخ باقي ملفات المشروع
 COPY gui/ohunter-ui ./
 
-# rebuild esbuild للـ linux
-RUN npm rebuild esbuild
-
-# build project
-RUN npx --yes vite build --force
+# build project بدون rebuild esbuild أو chmod
+RUN npx vite build --force
 
 
 # -------- BACKEND --------
