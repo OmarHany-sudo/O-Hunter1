@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # copy backend code
 COPY core ./core
 COPY modules ./modules
-COPY scanner.py .
+COPY core/scanner.py .
 
 # copy built frontend from previous stage
 COPY --from=frontend /frontend/dist ./gui/ohunter-ui/dist
