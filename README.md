@@ -1,207 +1,272 @@
-# O-Hunter: Web Vulnerability Scanner
+# O‑Hunter Enhanced v2.0 🛡️
+**Professional Web Vulnerability Scanner — Community Edition**
 
-```
-  ____ _   _ _   _ ____   _____
- / ___| | | | \ | |  _ \ / ____|
-| |   | | | |  \| | |_) | (___   ___ _ __ __ _ _ __ ___   ___
-| |   | | | | . ` |  _ < \___ \ / __| '__/ _` | '_ ` _ \ / _ \
-| |___| |_| | |\  | |_) |____) | (__| | | (_| | | | | | |  __/
- \_____\___/|_| \_|____/|_____/ \___|_|  \__,_|_| |_| |_|\___|
-
-Developed by Eng. Omar Hany
-```
-
-O-Hunter is a comprehensive web vulnerability scanner that automatically tests for OWASP Top 10 web risks, produces prioritized findings, includes exploitation PoCs (safe/non-destructive by default), and provides clear remediation steps.
-
-## Features
-
-- **OWASP Top 10 Coverage**: Complete coverage of all OWASP Top 10 (2021) categories
-- **Multi-Modal Scanning**: Passive, active non-invasive, and optional advanced exploit modules
-- **Modular Architecture**: Easy to add new tests and plugins
-- **Multiple Output Formats**: JSON, HTML reports, and interactive web UI dashboard
-- **Safety First**: Built-in safe-mode with consent workflow for active scanning
-- **Professional UI**: Modern React-based dashboard with real-time scanning
-
-## Quick Start
-
-### Using Docker (Recommended)
-
-```bash
-# Clone the repository
-git clone https://github.com/OmarHany-sudo/O-Hunter
-cd O-Hunter
-
-# Build and run with Docker Compose
-docker-compose up --build
-
-# Access the web interface at http://localhost:5000
-```
-
-### Manual Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/OmarHany-sudo/O-Hunter
-cd O-Hunter
-
-# Create virtual environment
-cd core
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r ../requirements.txt
-
-# Build the frontend
-cd ../gui/ohunter-ui
-npm install
-npm run build
-
-# Start the application
-cd ../../
-PYTHONPATH=/path/to/O-Hunter python core/app.py
-```
-
-## Usage
-
-### Web Interface
-
-1. Open your browser and navigate to `http://localhost:5000`
-2. Enter a target URL in the scan input field
-3. Click "Start Scan" to begin vulnerability assessment
-4. Review findings and download reports
-
-### Command Line Interface
-
-```bash
-# Basic passive scan
-python cli.py --target https://example.com --mode passive
-
-# Active scan with JSON report
-python cli.py --target https://example.com --mode active --output report.json
-
-# Full scan with HTML report
-python cli.py --target https://example.com --mode full --output report.html --format html
-
-# Advanced exploitation (requires confirmation)
-python cli.py --target https://example.com --mode full --exploit
-```
-
-### CLI Options
-
-- `--target, -t`: Target URL to scan (required)
-- `--mode, -m`: Scan mode (passive, active, full) - default: passive
-- `--output, -o`: Output file path
-- `--format, -f`: Output format (json, html) - default: json
-- `--plugin, -p`: Specific plugins to run (comma-separated)
-- `--exploit`: Enable advanced exploitation (requires confirmation)
-
-## Architecture
-
-### Core Components
-
-1. **Core Engine** (`core/`): Scanner orchestration, scheduling, plugin loader
-2. **Modules** (`modules/`): Individual vulnerability scanners for each OWASP category
-3. **GUI** (`gui/`): React-based web interface
-4. **CLI** (`cli.py`): Command-line interface for automated scans
-
-### Vulnerability Modules
-
-- **Access Control**: IDOR, privilege escalation, forced browsing
-- **Injection**: SQL injection, command injection, NoSQL injection
-- **XSS**: Reflected, stored, and DOM-based cross-site scripting
-- **Cryptographic Failures**: TLS configuration, weak ciphers
-- **Security Misconfiguration**: Missing headers, default files, verbose errors
-- **Vulnerable Components**: Outdated software detection
-- **Authentication Failures**: Weak credentials, session management
-- **Software/Data Integrity**: Unsigned artifacts, CI/CD misconfigurations
-- **Logging & Monitoring**: Missing security logs and alerts
-- **SSRF**: Server-side request forgery detection
-
-## Safety & Legal Considerations
-
-⚠️ **IMPORTANT**: O-Hunter includes built-in safety mechanisms:
-
-- **Consent Workflow**: Explicit authorization required before active scanning
-- **Safe Mode**: Default passive + non-destructive active checks
-- **Rate Limiting**: Built-in throttling to avoid DoS
-- **Confirmation Gates**: Typed confirmation required for destructive checks
-
-### Legal Usage
-
-- Only scan systems you own or have explicit permission to test
-- Respect rate limits and avoid disrupting target services
-- Follow responsible disclosure practices for any vulnerabilities found
-- Comply with local laws and regulations regarding security testing
-
-## Development
-
-### Adding New Plugins
-
-1. Create a new scanner class in the `modules/` directory
-2. Implement the required methods following the existing pattern
-3. Add the scanner to the main `Scanner` class in `core/scanner.py`
-4. Write tests for your new module
-
-### Project Structure
-
-```
-O-Hunter/
-├── core/                   # Core engine and backend
-│   ├── app.py             # Flask web application
-│   ├── scanner.py         # Main scanner orchestrator
-│   ├── report_generator.py # Report generation
-│   └── venv/              # Python virtual environment
-├── modules/               # Vulnerability scanner modules
-│   ├── access_control.py
-│   ├── injection.py
-│   ├── xss.py
-│   └── ...
-├── gui/                   # React frontend
-│   └── ohunter-ui/
-├── tests/                 # Unit and integration tests
-├── docs/                  # Documentation
-├── cli.py                 # Command-line interface
-├── Dockerfile             # Docker configuration
-├── docker-compose.yml     # Docker Compose setup
-└── requirements.txt       # Python dependencies
-```
-
-### Running Tests
-
-```bash
-# Run unit tests
-PYTHONPATH=/path/to/O-Hunter python tests/test_scanner.py
-
-# Test CLI functionality
-python cli.py --target https://httpbin.org --mode passive
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- OWASP Foundation for the Top 10 vulnerability categories
-- Security research community for vulnerability detection techniques
-- Open source security tools that inspired this project
-
-## Support
-
-For questions, issues, or contributions, please:
-- Open an issue on GitHub
-- Contact: Eng. Omar Hany
+[![Python](https://img.shields.io/badge/Python-3.8%2B-informational)](#)
+[![React](https://img.shields.io/badge/React-18%2B-informational)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license)
+[![Status](https://img.shields.io/badge/Release-v2.0-blue)](#)
+[![Made-with-love](https://img.shields.io/badge/Made%20by-Eng.%20Omar%20Hany-%23e91e63)](#)
 
 ---
 
-**Disclaimer**: This tool is for educational and authorized security testing purposes only. Users are responsible for ensuring they have proper authorization before scanning any systems.
+## 🧭 Overview | نظرة عامة
+**O‑Hunter Enhanced** is a professional, extensible **web security scanner** built for students, security engineers, and bug hunters.  
+It ships with a CLI and a modern web GUI, supports **plugin-based** scans, and produces **HTML / JSON / CSV / PDF** reports.
 
+> 🇸🇦 **عربي مختصر:**  
+> O‑Hunter Enhanced أداة احترافية لفحص ثغرات مواقع الويب، بواجهة سطر أوامر وواجهة ويب حديثة، مع نظام إضافات (Plugins) وتقارير متعددة الصيغ (HTML / JSON / CSV / PDF).
+
+---
+
+## 🚀 What’s New in v2.0 | الجديد في الإصدار 2.0
+- **Advanced checks (11+ categories)**: XSS, SQLi, SSRF, RCE, XXE, Open Redirect, HTTP Request Smuggling, Insecure Deserialization, Directory Enumeration, Weak Credentials, Security Headers.
+- **Improved UI**: Dark mode, interactive dashboard, real-time charts.
+- **Performance**: Async scanning + multithreading, modular plugin system, custom plugins.
+- **Integrations**: OWASP ZAP API, Have I Been Pwned, Censys Free API.
+- **Reports**: Enhanced HTML & JSON, plus CSV and PDF exports.
+- **SEO-ready** landing pages and structured data (JSON‑LD) for docs.
+
+---
+
+## 🧪 Supported Scan Types | أنواع الفحوصات المدعومة
+| Category | Description | Severity |
+|---|---|---|
+| XSS | Cross‑Site Scripting | High |
+| SQLi | SQL Injection | Critical |
+| SSRF | Server‑Side Request Forgery | High |
+| RCE | Remote Code Execution | Critical |
+| XXE | XML External Entity | High |
+| Open Redirect | Unvalidated Redirects | Medium |
+| HTTP Request Smuggling | Desync attacks | High |
+| Insecure Deserialization | Unsafe object deserialization | High |
+| Directory Enumeration | Sensitive paths/files | Medium |
+| Weak Credentials | Default/weak passwords | Medium |
+| Security Headers | Missing/weak headers | Low–Medium |
+
+> يمكن توسعة القائمة بإضافات Plugins مخصّصة.
+
+---
+
+## 🧰 Requirements | المتطلبات
+- **Python 3.8+**
+- **Node.js 16+** and **npm** or **yarn**
+- **Masscan** *(optional for fast port scans)*
+- **Nmap** *(optional for service detection)*
+
+### Install extra tools
+**Ubuntu/Debian**
+```bash
+sudo apt-get update
+sudo apt-get install masscan nmap
+```
+
+**macOS (Homebrew)**
+```bash
+brew install masscan nmap
+```
+
+**Windows**
+- Download Masscan & Nmap from their official websites and add to PATH.
+
+---
+
+## ⚙️ Installation | التثبيت
+### 1) Python deps
+```bash
+pip install -r requirements.txt
+```
+
+### 2) Frontend deps
+```bash
+cd gui/ohunter-ui
+npm install --legacy-peer-deps
+```
+
+---
+
+## 🖥️ Usage — CLI | الاستخدام — سطر الأوامر
+**Basic scan**
+```bash
+python cli.py --target https://example.com
+```
+
+**Scan multiple categories**
+```bash
+python cli.py --target https://example.com --all
+# or
+python cli.py --target https://example.com --xss --sqli --ssrf
+```
+
+**Async + plugins**
+```bash
+python cli.py --target https://example.com --async --plugins
+```
+
+**Network scans (requires tools)**
+```bash
+python cli.py --target 192.168.1.1 --masscan --nmap
+```
+
+**Content & weak creds**
+```bash
+python cli.py --target https://example.com --dir-enum --weak-creds
+```
+
+> **Tips**  
+> - Use `--output json|html|csv|pdf` to pick the report format.  
+> - Each scan writes a report named like: `<domain>_scan.<ext>` inside the configured reports folder.
+
+---
+
+## 🌐 Usage — GUI | الاستخدام — واجهة الويب
+**Backend (Flask)**
+```bash
+cd core
+python app.py
+```
+
+**Frontend (React/Vite)**
+```bash
+cd gui/ohunter-ui
+npm run dev
+```
+Open the app at **http://localhost:5173** (or the port shown in the terminal).  
+واجهة الويب تدعم **الوضع الليلي** ولوحة معلومات تفاعلية.
+
+---
+
+## 🔌 Plugin System | نظام الإضافات
+Create a custom plugin by subclassing the base:
+```python
+# plugins/example_plugin.py
+from plugins.base_plugin import BasePlugin
+
+class ExamplePlugin(BasePlugin):
+    def __init__(self):
+        super().__init__()
+        self.name = "Example Scanner"
+        self.description = "Example vulnerability scanner"
+        self.category = "Custom"
+
+    def scan(self, target_url, params=None):
+        findings = []
+        # Your scanning logic here
+        return findings
+```
+
+Run a specific plugin:
+```bash
+python cli.py --target https://example.com --plugin ExamplePlugin
+```
+
+### Plugin skeleton helper
+```bash
+mkdir -p plugins/my_plugin
+touch plugins/my_plugin/__init__.py plugins/my_plugin/scanner.py
+```
+
+---
+
+## 🔧 Configuration | الإعدادات
+**API keys (example):**
+```python
+# config.py
+API_KEYS = {
+    "haveibeenpwned": "your-api-key",
+    "censys_id": "your-censys-id",
+    "censys_secret": "your-censys-secret",
+    "zap_api_key": "your-zap-key"
+}
+```
+
+**Reports directory & output format** can be configured in `config.py`.  
+التقارير تدعم **JSON / HTML / CSV / PDF**.
+
+---
+
+## 📊 Report Formats | تنسيقات التقارير
+**Example JSON:**
+```json
+{
+  "scan_info": {
+    "target_url": "https://example.com",
+    "scan_type": "comprehensive",
+    "timestamp": "2025-08-18T15:30:00Z",
+    "total_findings": 5
+  },
+  "findings": [
+    {
+      "vulnerability": "Missing X-Content-Type-Options header",
+      "severity": "Low",
+      "category": "Security Headers",
+      "evidence": "Header not found in response",
+      "remediation": "Add X-Content-Type-Options: nosniff header",
+      "cwe": "CWE-16",
+      "owasp": "A05:2021"
+    }
+  ]
+}
+```
+
+**HTML / PDF** reports are styled for readability and can be shared with stakeholders.  
+**CSV** is convenient for spreadsheets and quick triage.
+
+---
+
+## 🧭 Docs & SEO | التوثيق وتهيئة البحث
+- The repo includes **guide pages** per vulnerability: `/xss`, `/sql-injection`, `/ssrf`, `/rce`, `/xxe`, `/open-redirect`, etc.  
+- Structured data via **JSON‑LD** helps search engines parse docs.  
+- Social media cards are provided for better sharing previews.
+
+---
+
+## 🤝 Contributing | المساهمة
+1. Fork the repo
+2. Create a feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit changes: `git commit -m "Add some AmazingFeature"`
+4. Push the branch: `git push origin feature/AmazingFeature`
+5. Open a Pull Request
+
+**Discussions & questions:** use **GitHub Discussions**.  
+**Bug reports & feature requests:** open **GitHub Issues**.
+
+---
+
+## 🗺️ Roadmap | خارطة الطريق
+**v2.1 (Soon):**
+- GraphQL scanning
+- Burp Suite integration
+- REST API scanning
+- Performance tuning
+
+**v3.0 (Future):**
+- AI‑assisted scanning
+- CI/CD integration
+- Container scanning
+- Comparative baselines
+
+---
+
+## 📝 License | الترخيص
+This project is released under the **MIT License**. See [`LICENSE`](LICENSE).
+
+---
+
+## 🙏 Acknowledgments | الشكر والتقدير
+- **OWASP** guidelines and community
+- **React** & **Flask** communities
+- Security researchers and contributors
+
+---
+
+## 📬 Contact & Support | التواصل والدعم
+- **Issues:** https://github.com/OmarHany-sudo/O-Hunter1/issues
+- **Discussions:** https://github.com/OmarHany-sudo/O-Hunter1/discussions
+- **Email:** omar55shalaby@gmail.com
+
+**Maintainer:** Eng. **Omar Hany**  
+**Release:** v2.0 — **August 2025**
+
+---
+
+> إذا أردت نسخة عربية كاملة من المستند، أخبرني وسأوفر README‑ar.md.
