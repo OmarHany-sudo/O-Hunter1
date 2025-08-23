@@ -1,39 +1,44 @@
-# ============ FRONTEND ============
-FROM node:18 AS frontend
+# -------- FRONTEND --------
+FROM node:20 AS frontend
 WORKDIR /frontend
 
-# copy package.json & install deps
+# نسخ ملفات package.json و package-lock.json
 COPY gui/ohunter-ui/package*.json ./
+
+# تثبيت جميع dependencies مع تجاوز مشاكل peer deps
 RUN npm install --legacy-peer-deps
 
-# copy frontend code
+# نسخ كل ملفات الواجهة
 COPY gui/ohunter-ui ./
 
-# نثبت esbuild بشكل مباشر لضمان وجود الـ binary
-RUN npm install --legacy-peer-deps esbuild --save-dev
+# تثبيت vite و esbuild بشكل مباشر للتأكد من وجود الـ binaries
+RUN npm install --legacy-peer-deps esbuild vite --save-dev
 
-# اعطي صلاحيات لكل الملفات التنفيذية
+# اعطاء صلاحيات تنفيذ لكل الـ binaries
 RUN chmod -R +x node_modules/.bin node_modules/esbuild/bin node_modules/@esbuild
 
-# build project
+# بناء المشروع
 RUN npx vite build
 
 # -------- BACKEND --------
 FROM python:3.11-slim AS backend
 WORKDIR /app
 
-# install python deps
+# نسخ requirements وتثبيت المكتبات
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# copy backend code
+# نسخ الكود
 COPY core ./core
 COPY modules ./modules
 COPY core/scanner.py .
 
-# copy built frontend from previous stage
+# نسخ build الواجهة من مرحلة الـ frontend
 COPY --from=frontend /frontend/dist ./gui/ohunter-ui/dist
 
-# expose port
+# تعيين المنفذ
 ENV PORT=8080
+
+# تشغيل السيرفر
 CMD ["python", "core/app.py"]
+
