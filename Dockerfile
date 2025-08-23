@@ -5,14 +5,15 @@ WORKDIR /frontend
 # انسخ بس package.json والـ lockfile
 COPY gui/ohunter-ui/package*.json ./
 
-# نزّل dependecies + vite
-RUN npm install --legacy-peer-deps vite
+# نزّل dependecies (بما فيها vite)
+RUN npm install --legacy-peer-deps
 
 # انسخ باقي الكود
 COPY gui/ohunter-ui ./
 
-# ابني المشروع
-RUN npm run build
+# خلي vite يشتغل من الـ local node_modules
+RUN npx vite build
+
 
 
 
