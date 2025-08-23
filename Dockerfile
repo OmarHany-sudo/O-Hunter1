@@ -1,10 +1,11 @@
-# -------- FRONTEND BUILD --------
+# ============ Build React Frontend ============
 FROM node:18 AS frontend
 WORKDIR /frontend
 COPY gui/ohunter-ui/package*.json ./
 RUN npm install --legacy-peer-deps
 COPY gui/ohunter-ui ./
 RUN npm run build
+
 
 # -------- BACKEND --------
 FROM python:3.11-slim AS backend
