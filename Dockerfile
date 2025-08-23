@@ -2,17 +2,18 @@
 FROM node:18 AS frontend
 WORKDIR /frontend
 
-# انسخ بس package.json الاول
+# انسخ بس package.json والـ lockfile
 COPY gui/ohunter-ui/package*.json ./
 
-# ثبّت dependencies
-RUN npm install --legacy-peer-deps
+# نزّل dependecies + vite
+RUN npm install --legacy-peer-deps vite
 
 # انسخ باقي الكود
 COPY gui/ohunter-ui ./
 
-# استعمل npx علشان يضمن يشغل vite من node_modules
-RUN npx vite build
+# ابني المشروع
+RUN npm run build
+
 
 
 # -------- BACKEND --------
