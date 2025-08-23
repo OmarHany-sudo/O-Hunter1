@@ -10,22 +10,21 @@ RUN npm run build
 FROM python:3.11-slim AS backend
 WORKDIR /app
 
-# نسخ requirements
+# Install deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# نسخ الكود كله
+# Copy backend code
 COPY . .
 
-# نسخ الـ build بتاع React للـ backend
-COPY --from=frontend /frontend/dist ./dist
+# نسخ الـ React build جوه الـ static folder اللي Flask بيشاور عليه
+COPY --from=frontend /frontend/dist ./gui/ohunter-ui/dist
 
-# Variables
+# Vars
 ENV PORT=8080
 ENV PYTHONPATH=/app
 
-# Expose port
 EXPOSE 8080
 
-# Run Flask
+# Run Flask (خليها cli.py لأن الكود اللي وريتهولي جوا cli.py)
 CMD ["python", "cli.py"]
