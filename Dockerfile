@@ -7,14 +7,12 @@ RUN npm install --legacy-peer-deps
 
 COPY gui/ohunter-ui ./
 
-# تثبيت vite و esbuild مباشرة
-RUN npm install --legacy-peer-deps vite esbuild --save-dev
+# rebuild esbuild للـ linux
+RUN npm rebuild esbuild
 
-# اعطاء صلاحيات تشغيل
-RUN chmod -R +x node_modules/.bin node_modules/esbuild/bin node_modules/@esbuild
+# build project
+RUN npx --yes vite build --force
 
-# بناء المشروع
-RUN npx vite build
 
 # -------- BACKEND --------
 FROM python:3.11-slim AS backend
