@@ -1,10 +1,18 @@
 # ============ Build React Frontend ============
 FROM node:18 AS frontend
 WORKDIR /frontend
+
+# انسخ بس package.json الاول
 COPY gui/ohunter-ui/package*.json ./
+
+# ثبّت dependencies
 RUN npm install --legacy-peer-deps
+
+# انسخ باقي الكود
 COPY gui/ohunter-ui ./
-RUN npm run build
+
+# استعمل npx علشان يضمن يشغل vite من node_modules
+RUN npx vite build
 
 
 # -------- BACKEND --------
