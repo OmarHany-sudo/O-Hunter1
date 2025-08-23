@@ -1,36 +1,35 @@
 FROM python:3.11-slim
 
-# تحديد مجلد العمل
+# Set working directory
 WORKDIR /app
 
-# تثبيت المتطلبات الأساسية
-RUN apt-get update && apt-get install -y \
-    curl \
-    nodejs \
-    npm \
+# Install system deps + node + pnpm
+RUN apt-get update && apt-get install -y curl gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
     && npm install -g pnpm \
     && rm -rf /var/lib/apt/lists/*
 
-# تثبيت باكدجات Python
+# Install Python deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# نسخ باقي ملفات المشروع
+# Copy project
 COPY . .
 
 # ===== Build Frontend =====
 WORKDIR /app/gui/ohunter-ui
 RUN pnpm install && pnpm run build
 
-# رجوع لمجلد الباك إند
+# Back to backend
 WORKDIR /app
 
-# تعيين متغيرات البيئة
+# Env vars
 ENV PYTHONPATH=/app
 ENV PORT=8080
 
-# فتح البورت
+# Expose port
 EXPOSE $PORT
 
-# الأمر الافتراضي للتشغيل
-CMD ["python", "core/app.py"]
+# Run Flask app
+CMD ["python", "-m", "core.app"]
