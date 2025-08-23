@@ -10,7 +10,7 @@ RUN npm install --legacy-peer-deps
 COPY gui/ohunter-ui ./
 
 # نثبت esbuild بشكل مباشر لضمان وجود الـ binary
-RUN npm install esbuild --save-dev
+RUN npm install --legacy-peer-deps esbuild --save-dev
 
 # اعطي صلاحيات لكل الملفات التنفيذية
 RUN chmod -R +x node_modules/.bin node_modules/esbuild/bin node_modules/@esbuild
