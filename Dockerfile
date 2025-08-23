@@ -28,4 +28,4 @@ ENV PYTHONPATH=/app
 EXPOSE 8080
 
 # Run Flask
-CMD ["python", "core/app.py"]
+CMD ["python", "cli.py"]
