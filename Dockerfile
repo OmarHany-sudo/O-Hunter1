@@ -1,24 +1,23 @@
 # -------- FRONTEND --------
-FROM node:20-bullseye AS frontend
+FROM node:20 AS frontend
 WORKDIR /frontend
 
-# انسخ ملفات الـ package
+# انسخ package.json و package-lock.json لو موجود
 COPY gui/ohunter-ui/package*.json ./
 
-# ثبت الـ dependencies
-RUN npm install --legacy-peer-deps
+# امسح أي تثبيت قديم
+RUN rm -rf node_modules package-lock.json \
+    && npm install --legacy-peer-deps \
+    && npm install vite esbuild --legacy-peer-deps
 
-# انسخ باقي المشروع
+# انسخ باقي ملفات المشروع
 COPY gui/ohunter-ui ./
 
-# ثبت vite و esbuild محليًا
-RUN npm install vite esbuild --legacy-peer-deps
-
-# اعطي صلاحيات execute لكل الـ binaries
+# اعطي صلاحيات execute للـ binaries
 RUN chmod -R +x node_modules/.bin node_modules/vite node_modules/esbuild/bin node_modules/@esbuild
 
-# build المشروع
-RUN npx vite build --force
+# اعمل build للمشروع
+RUN npx vite build
 
 
 
