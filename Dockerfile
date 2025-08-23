@@ -5,14 +5,17 @@ WORKDIR /frontend
 # انسخ ملفات الـ package
 COPY gui/ohunter-ui/package*.json ./
 
-# ثبت كل الـ dependencies بدون مشاكل peer
+# ثبت الـ dependencies
 RUN npm install --legacy-peer-deps
 
-# انسخ باقي ملفات المشروع
+# انسخ باقي المشروع
 COPY gui/ohunter-ui ./
 
 # ثبت vite و esbuild محليًا
 RUN npm install vite esbuild --legacy-peer-deps
+
+# اعطي صلاحيات execute لكل الـ binaries
+RUN chmod -R +x node_modules/.bin node_modules/vite node_modules/esbuild/bin node_modules/@esbuild
 
 # build المشروع
 RUN npx vite build --force
