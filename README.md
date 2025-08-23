@@ -1,4 +1,4 @@
-# O‑Hunter Enhanced v2.0 🛡️
+# O-Hunter Enhanced v2.0 🛡️
 **Professional Web Vulnerability Scanner — Community Edition**
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-informational)](#)
@@ -9,48 +9,43 @@
 
 ---
 
-## 🧭 Overview | نظرة عامة
-**O‑Hunter Enhanced** is a professional, extensible **web security scanner** built for students, security engineers, and bug hunters.  
-It ships with a CLI and a modern web GUI, supports **plugin-based** scans, and produces **HTML / JSON / CSV / PDF** reports.
-
-> 🇸🇦 **عربي مختصر:**  
-> O‑Hunter Enhanced أداة احترافية لفحص ثغرات مواقع الويب، بواجهة سطر أوامر وواجهة ويب حديثة، مع نظام إضافات (Plugins) وتقارير متعددة الصيغ (HTML / JSON / CSV / PDF).
+## 🧭 Overview
+**O-Hunter Enhanced** is a professional, extensible **web security scanner** built for students, security engineers, and bug bounty hunters.  
+It includes a CLI and a modern web-based GUI, supports a **plugin system**, and generates reports in **HTML, JSON, CSV, and PDF** formats.
 
 ---
 
-## 🚀 What’s New in v2.0 | الجديد في الإصدار 2.0
+## 🚀 What’s New in v2.0
 - **Advanced checks (11+ categories)**: XSS, SQLi, SSRF, RCE, XXE, Open Redirect, HTTP Request Smuggling, Insecure Deserialization, Directory Enumeration, Weak Credentials, Security Headers.
-- **Improved UI**: Dark mode, interactive dashboard, real-time charts.
-- **Performance**: Async scanning + multithreading, modular plugin system, custom plugins.
-- **Integrations**: OWASP ZAP API, Have I Been Pwned, Censys Free API.
-- **Reports**: Enhanced HTML & JSON, plus CSV and PDF exports.
-- **SEO-ready** landing pages and structured data (JSON‑LD) for docs.
+- **Modern UI**: Dark mode, interactive dashboard, real-time charts.
+- **Performance**: Asynchronous scanning, multithreading, modular plugins.
+- **Integrations**: OWASP ZAP API, Have I Been Pwned, Censys API.
+- **Enhanced reporting**: HTML, JSON, CSV, and PDF exports.
+- **SEO-ready documentation** and structured data for better search visibility.
 
 ---
 
-## 🧪 Supported Scan Types | أنواع الفحوصات المدعومة
+## 🧪 Supported Scan Types
 | Category | Description | Severity |
 |---|---|---|
-| XSS | Cross‑Site Scripting | High |
+| XSS | Cross-Site Scripting | High |
 | SQLi | SQL Injection | Critical |
-| SSRF | Server‑Side Request Forgery | High |
+| SSRF | Server-Side Request Forgery | High |
 | RCE | Remote Code Execution | Critical |
 | XXE | XML External Entity | High |
 | Open Redirect | Unvalidated Redirects | Medium |
-| HTTP Request Smuggling | Desync attacks | High |
+| HTTP Request Smuggling | Request desync attacks | High |
 | Insecure Deserialization | Unsafe object deserialization | High |
-| Directory Enumeration | Sensitive paths/files | Medium |
+| Directory Enumeration | Sensitive directories/files | Medium |
 | Weak Credentials | Default/weak passwords | Medium |
-| Security Headers | Missing/weak headers | Low–Medium |
-
-> يمكن توسعة القائمة بإضافات Plugins مخصّصة.
+| Security Headers | Missing/weak security headers | Low–Medium |
 
 ---
 
-## 🧰 Requirements | المتطلبات
+## 🧰 Requirements
 - **Python 3.8+**
-- **Node.js 16+** and **npm** or **yarn**
-- **Masscan** *(optional for fast port scans)*
+- **Node.js 16+** with **npm** or **yarn**
+- **Masscan** *(optional for fast port scanning)*
 - **Nmap** *(optional for service detection)*
 
 ### Install extra tools
@@ -66,17 +61,17 @@ brew install masscan nmap
 ```
 
 **Windows**
-- Download Masscan & Nmap from their official websites and add to PATH.
+Download and install Masscan and Nmap from their official sites.
 
 ---
 
-## ⚙️ Installation | التثبيت
-### 1) Python deps
+## ⚙️ Installation
+### 1) Install Python dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2) Frontend deps
+### 2) Install Frontend dependencies
 ```bash
 cd gui/ohunter-ui
 npm install --legacy-peer-deps
@@ -84,7 +79,7 @@ npm install --legacy-peer-deps
 
 ---
 
-## 🖥️ Usage — CLI | الاستخدام — سطر الأوامر
+## 🖥️ CLI Usage
 **Basic scan**
 ```bash
 python cli.py --target https://example.com
@@ -107,36 +102,34 @@ python cli.py --target https://example.com --async --plugins
 python cli.py --target 192.168.1.1 --masscan --nmap
 ```
 
-**Content & weak creds**
+**Content & weak creds checks**
 ```bash
 python cli.py --target https://example.com --dir-enum --weak-creds
 ```
 
-> **Tips**  
-> - Use `--output json|html|csv|pdf` to pick the report format.  
-> - Each scan writes a report named like: `<domain>_scan.<ext>` inside the configured reports folder.
+> Use `--output json|html|csv|pdf` to set the report format.  
+> Each scan creates a report file named `<domain>_scan.<ext>`.
 
 ---
 
-## 🌐 Usage — GUI | الاستخدام — واجهة الويب
-**Backend (Flask)**
+## 🌐 Web GUI
+Start the backend:
 ```bash
 cd core
 python app.py
 ```
 
-**Frontend (React/Vite)**
+Run the frontend:
 ```bash
 cd gui/ohunter-ui
 npm run dev
 ```
-Open the app at **http://localhost:5173** (or the port shown in the terminal).  
-واجهة الويب تدعم **الوضع الليلي** ولوحة معلومات تفاعلية.
+Open **http://localhost:5173** to access the dashboard.
 
 ---
 
-## 🔌 Plugin System | نظام الإضافات
-Create a custom plugin by subclassing the base:
+## 🔌 Plugin System
+Create a custom plugin:
 ```python
 # plugins/example_plugin.py
 from plugins.base_plugin import BasePlugin
@@ -150,7 +143,7 @@ class ExamplePlugin(BasePlugin):
 
     def scan(self, target_url, params=None):
         findings = []
-        # Your scanning logic here
+        # Add scanning logic here
         return findings
 ```
 
@@ -159,16 +152,10 @@ Run a specific plugin:
 python cli.py --target https://example.com --plugin ExamplePlugin
 ```
 
-### Plugin skeleton helper
-```bash
-mkdir -p plugins/my_plugin
-touch plugins/my_plugin/__init__.py plugins/my_plugin/scanner.py
-```
-
 ---
 
-## 🔧 Configuration | الإعدادات
-**API keys (example):**
+## 🔧 Configuration
+Example API keys:
 ```python
 # config.py
 API_KEYS = {
@@ -178,13 +165,11 @@ API_KEYS = {
     "zap_api_key": "your-zap-key"
 }
 ```
-
-**Reports directory & output format** can be configured in `config.py`.  
-التقارير تدعم **JSON / HTML / CSV / PDF**.
+The reports directory and default output format can also be configured.
 
 ---
 
-## 📊 Report Formats | تنسيقات التقارير
+## 📊 Report Formats
 **Example JSON:**
 ```json
 {
@@ -208,31 +193,21 @@ API_KEYS = {
 }
 ```
 
-**HTML / PDF** reports are styled for readability and can be shared with stakeholders.  
-**CSV** is convenient for spreadsheets and quick triage.
+---
+
+## 🤝 Contributing
+1. Fork the repo.
+2. Create a feature branch: `git checkout -b feature/FeatureName`
+3. Commit changes: `git commit -m "Add new feature"`
+4. Push to branch: `git push origin feature/FeatureName`
+5. Open a Pull Request.
+
+For questions, use **GitHub Discussions**.  
+For issues, use **GitHub Issues**.
 
 ---
 
-## 🧭 Docs & SEO | التوثيق وتهيئة البحث
-- The repo includes **guide pages** per vulnerability: `/xss`, `/sql-injection`, `/ssrf`, `/rce`, `/xxe`, `/open-redirect`, etc.  
-- Structured data via **JSON‑LD** helps search engines parse docs.  
-- Social media cards are provided for better sharing previews.
-
----
-
-## 🤝 Contributing | المساهمة
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feature/AmazingFeature`
-3. Commit changes: `git commit -m "Add some AmazingFeature"`
-4. Push the branch: `git push origin feature/AmazingFeature`
-5. Open a Pull Request
-
-**Discussions & questions:** use **GitHub Discussions**.  
-**Bug reports & feature requests:** open **GitHub Issues**.
-
----
-
-## 🗺️ Roadmap | خارطة الطريق
+## 🗺️ Roadmap
 **v2.1 (Soon):**
 - GraphQL scanning
 - Burp Suite integration
@@ -240,26 +215,19 @@ API_KEYS = {
 - Performance tuning
 
 **v3.0 (Future):**
-- AI‑assisted scanning
+- AI-assisted scanning
 - CI/CD integration
 - Container scanning
 - Comparative baselines
 
 ---
 
-## 📝 License | الترخيص
-This project is released under the **MIT License**. See [`LICENSE`](LICENSE).
+## 📝 License
+Released under the **MIT License**. See [`LICENSE`](LICENSE).
 
 ---
 
-## 🙏 Acknowledgments | الشكر والتقدير
-- **OWASP** guidelines and community
-- **React** & **Flask** communities
-- Security researchers and contributors
-
----
-
-## 📬 Contact & Support | التواصل والدعم
+## 📬 Contact & Support
 - **Issues:** https://github.com/OmarHany-sudo/O-Hunter1/issues
 - **Discussions:** https://github.com/OmarHany-sudo/O-Hunter1/discussions
 - **Email:** omar55shalaby@gmail.com
@@ -267,6 +235,3 @@ This project is released under the **MIT License**. See [`LICENSE`](LICENSE).
 **Maintainer:** Eng. **Omar Hany**  
 **Release:** v2.0 — **August 2025**
 
----
-
-> إذا أردت نسخة عربية كاملة من المستند، أخبرني وسأوفر README‑ar.md.
